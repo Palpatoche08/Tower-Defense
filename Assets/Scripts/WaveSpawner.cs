@@ -27,9 +27,12 @@ public class WaveSpawner : MonoBehaviour
             countdown = timeBetweenWaves;
         }
 
-        waveCountdownText.text = Mathf.Round(countdown).ToString();   
 
         countdown -= Time.deltaTime;
+
+        countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
+
+        waveCountdownText.text =   (countdown).ToString("F2");  
 
     }
 
