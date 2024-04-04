@@ -13,6 +13,10 @@ public class Node : MonoBehaviour
     [Header("Optional")]
 
     BuildManager buildManager;
+
+    public TurretBluePrint turretBluePrint;
+
+    public bool isUpgraded = false;
     
     public GameObject turret;
 
@@ -27,6 +31,49 @@ public class Node : MonoBehaviour
         startColor = rend.material.color;
 
         buildManager = BuildManager.instance;
+    }
+
+    void BuildTurret (TurretBluePrint blueprint)
+    {
+        if(PlayerStats.Money < blueprint.cost)
+        {
+            Debug.Log("Not Enough Money");
+            return;
+        }
+
+        PlayerStats.Money -= blueprint.cost;
+
+        GameObject _turret = (GameObject)Instantiate(blueprint.prefab, GetBuildPosition(), Quaternion.identity);
+        turret = _turret;
+
+        turretBluePrint = blueprint;
+
+        GameObject effect = (GameObject)Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
+        Destroy(effect, 5f);
+        Debug.Log("Turret build" );
+    }
+
+    public void UpgradeTurret()
+    {
+        if(PlayerStats.Money < turretBluePrint.upgradeCost)
+        {
+            Debug.Log("Not Enough Money to Upgrade");
+            return;
+        }
+
+        PlayerStats.Money -= turretBluePrint.upgradeCost;
+
+        Destroy(turret);
+
+        GameObject _turret = (GameObject)Instantiate(turretBluePrint.upgradedPrefab, GetBuildPosition(), Quaternion.identity);
+        turret = _turret;
+
+        GameObject effect = (GameObject)Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
+        Destroy(effect, 5f);
+
+        isUpgraded = true;
+
+        Debug.Log("Turret upgraded" );
     }
 
     void OnMouseEnter()
@@ -60,17 +107,17 @@ public class Node : MonoBehaviour
         {
             return;
         }
+        if (turret != null)
+        {
+            buildManager.SelectNode(this);
+            return;
+        }
         if(!buildManager.CanBuild)
         {
             return;
         }
-        if (turret != null)
-        {
-            Debug.Log("Can't build there! - TODO : Display on screen");
-            return;
-        }
 
-        buildManager.BuildTurretOn(this);
+        BuildTurret(buildManager.GetTurretToBuild());
 
     }
 
