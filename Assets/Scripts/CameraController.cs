@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
-    private bool doMovement = true;  
     public float panSpeed = 30f;
     public float panBorderThickness = 10f;
+
+    public float rotationSpeed = 1f;
 
     public float scrollspeed = 5f;
     public float minY = 10f; 
@@ -21,13 +23,24 @@ public class CameraController : MonoBehaviour
             this.enabled = false;
             return;
         }
+
+        if (Input.GetMouseButton(2)) 
+        {
+            float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+            float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+
+            CinemachineFreeLook freeLookCam = GetComponent<CinemachineFreeLook>();
+            if (freeLookCam != null) 
+            {
+                freeLookCam.m_XAxis.Value += mouseX;
+                freeLookCam.m_YAxis.Value += mouseY;
+            } 
+            else 
+            {
+                Debug.LogError("CinemachineFreeLook error");
+            }
+        }
         
-        if(Input.GetKeyDown(KeyCode.Escape))
-            doMovement = !doMovement;
-
-        if(!doMovement)
-            return;
-
 
         if(Input.GetKey("w") || Input.mousePosition.y >= Screen.height - panBorderThickness)  
         {

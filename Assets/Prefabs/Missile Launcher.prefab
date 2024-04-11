@@ -125,8 +125,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0f95257280b9822488a6cbc2e28ce14b, type: 2}
-  - {fileID: 7347949212528627919, guid: 68ac36e71178aad408a8fe6a8021c4f2, type: 3}
+  - {fileID: 2100000, guid: aabf6ac5026040947b8797daef030e64, type: 2}
+  - {fileID: 2100000, guid: a49e4b5e6b5034545b1f854a07add132, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -296,12 +296,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  range: 30
+  targetEnemy: {fileID: 0}
+  range: 20
+  bulletPrefab: {fileID: 5104170365867578046, guid: f70e7ed580b427d42891a1c37d95deb7, type: 3}
   fireRate: 0.25
+  useLaser: 0
+  damageOverTime: 35
+  slowPct: 0.5
+  impactEffect: {fileID: 0}
+  LineRenderer: {fileID: 0}
   enemyTag: Enemy
   partToRotate: {fileID: 202572440363022021}
   turnSpeed: 10
-  bulletPrefab: {fileID: 5104170365867578046, guid: f70e7ed580b427d42891a1c37d95deb7, type: 3}
   firePoint: {fileID: 2396318780003051666}
 --- !u!4 &2062212838386586742 stripped
 Transform:
